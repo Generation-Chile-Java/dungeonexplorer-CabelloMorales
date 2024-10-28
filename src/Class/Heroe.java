@@ -1,53 +1,45 @@
 package Class;
 
-public class Heroe extends Inventory {
+import java.util.ArrayList;
+import java.util.List;
 
-    private  String name;
+import interfaz.GameObject;
 
+public class Heroe {
+
+    private String name;
     private int health;
+    private List<GameObject> inventory;
 
-    private Inventory[] inventory;
-
-    public  Heroe() {}
-
-    public  Heroe(String name, int health, Inventory[] inventory) {
+    public Heroe(String name, int health) {
         this.name = name;
         this.health = health;
-        this.inventory = inventory;
+        this.inventory = new ArrayList<>();
     }
-
-    public  String Dañorecibido(int dañoRecibido) 
-    {
-        setHealth(dañoRecibido);
-        return "El héroe " + name + " ha recibido " + dañoRecibido  + " de daño.";
-
+    public Heroe() {
     }
-
-
 
     public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return name;
     }
 
     public int getHealth() {
-        return this.health;
+        return health;
     }
 
-    private void setHealth(int health) {
-        this.health = this.health-health;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
-    public Inventory[] getInventory() {
-        return this.inventory;
+    public void addToInventory(GameObject item) {
+        inventory.add(item);
     }
 
-    public void setInventory(Inventory[] inventory) {
-        this.inventory = inventory;
+    public List<GameObject> getInventory() {
+        return inventory;
     }
 
-
+    public void takeDamage(int damage) {
+        health -= damage;
+    }
 }

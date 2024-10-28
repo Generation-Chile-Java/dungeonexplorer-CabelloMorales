@@ -1,23 +1,43 @@
+import java.util.Random;
+import java.util.Scanner;
+
+import Class.EmptyRoom;
+import Class.EnemyRoom;
 import Class.Heroe;
-import Class.Inventory;
+import Class.TreasureRoom;
+import interfaz.GameObject;
+import interfaz.Room;
 
 public class Main {   
-    
-    public static void main(String[] args) {    
-            Inventory[] equipo = {
-                new Inventory("manzana", 1),
-                new Inventory("platano", 1),
-                new Inventory("pan", 1)
-            };
-        Heroe Lance = new Heroe("Lance",100,equipo);
-        System.out.println(Lance.getName());
-        System.out.println(Lance.getHealth());
-        Inventory[] equipoLance = Lance.getInventory();
-        for (Inventory inventory : equipoLance) {
-            System.out.println(inventory.getName());
-        }
-        System.out.println(Lance.Dañorecibido(60));
-        System.out.println(Lance.getHealth());
+    public static void main(String[] args) {
+          Random rand = new Random();
+        Heroe player = new Heroe("Lance", 100);
+        Room[] dungeon = {
+            new EmptyRoom(),
+            new EnemyRoom(rand.nextInt(100)),
+            new TreasureRoom(new GameObject() {
+                public void interact(Heroe player) {
+                    System.out.println("has recogido una moneda!");
+                }
+            }),
+            new TreasureRoom(new GameObject() {
+                public void interact(Heroe player) {
+                    System.out.println("has recogido una espada!");
+                }
+            }),
+            new EnemyRoom(rand.nextInt(100))
+        };
 
+        Scanner scanner = new Scanner(System.in);
+        for (Room room : dungeon) {
+            room.enter(player);
+            System.out.println("Player health: " + player.getHealth());
+            if (player.getHealth() <= 0) {
+                System.out.println("Game over.");
+                break;
+            }
+        }
+
+        System.out.println("Juego Finalizado. inventario: " + player.getInventory().size() + " items.");
     }
 }
